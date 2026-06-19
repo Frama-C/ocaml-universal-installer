@@ -168,7 +168,7 @@ exit 0|}
     manpages_section
 
 
-let generate_uninstall_script ~app_name ~binary_name ~has_binary ~plugins =
+let generate_uninstall_script ~app_name ~binary_name ~has_binary ~bundle_id ~plugins =
   let app_path = Printf.sprintf "/Applications/%s.app" app_name in
   let resources = Printf.sprintf "%s/Contents/Resources" app_path in
 
@@ -241,6 +241,8 @@ if [ -d "%s" ]; then
   rm -rf "%s"
 fi
 
+pkgbuild --forget %s
+
 echo "Uninstallation complete!"
 |}
     app_name
@@ -248,7 +250,7 @@ echo "Uninstallation complete!"
     wrapper_removal
     resources
     app_path app_path app_path
-
+    bundle_id
 
 let save_postinstall_script ~content ~scripts_dir =
   OpamFilename.mkdir scripts_dir;

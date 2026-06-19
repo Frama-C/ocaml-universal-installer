@@ -169,6 +169,7 @@ let create_installer
       ~app_name:bundle.app_name
       ~binary_name:binary_name_for_scripts
       ~has_binary
+      ~bundle_id:bundle.bundle_id
       ~plugins:installer_config.plugins
   in
   let _uninstall_path = Macos_postinstall.save_uninstall_script

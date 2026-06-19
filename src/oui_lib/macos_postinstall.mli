@@ -36,6 +36,7 @@ val generate_uninstall_script :
   app_name:string ->
   binary_name:string ->
   has_binary:bool ->
+  bundle_id:string ->
   plugins:Installer_config.plugin list ->
   string
 
