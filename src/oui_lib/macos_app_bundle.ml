@@ -24,8 +24,7 @@ type t = {
 }
 
 let create ~installer_config ~work_dir =
-  let app_name = installer_config.Installer_config.name in
-  let app_name_cap = String.capitalize_ascii app_name in
+  let app_name = installer_config.Installer_config.fullname in
   let bundle_id = installer_config.unique_id in
   let binary_name = match installer_config.exec_files with
     | [] when installer_config.plugins <> [] ->
@@ -35,7 +34,7 @@ let create ~installer_config ~work_dir =
         "No exec_files specified in config (use plugins for plugin-only packages)"
     | binary :: _ -> Filename.basename binary.path
   in
-  let app_bundle_dir = work_dir / (app_name_cap ^ ".app") in
+  let app_bundle_dir = work_dir / (app_name ^ ".app") in
   let contents = app_bundle_dir / "Contents" in
   let macos = contents / "MacOS" in
   let frameworks = contents / "Frameworks" in
@@ -54,7 +53,7 @@ let create ~installer_config ~work_dir =
     macos;
     frameworks;
     resources;
-    app_name = app_name_cap;
+    app_name;
     binary_name;
     bundle_id;
   }
