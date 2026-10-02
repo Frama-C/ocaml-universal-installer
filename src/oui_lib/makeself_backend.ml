@@ -905,7 +905,11 @@ let add_sos_to_bundle ~bundle_dir (binary : Installer_config.exec_file) =
   | _ ->
     let dst_dir = OpamFilename.dirname binary in
     List.iter (fun so -> OpamFilename.copy_in so dst_dir) sos;
-    System.call_unit Patchelf (Set_rpath {rpath = "$ORIGIN"; binary})
+    List.iter
+      (fun bin_or_lib ->
+         System.call_unit Patchelf
+           (Set_rpath {rpath = "$ORIGIN"; binary = bin_or_lib}))
+      (binary :: sos)
 
 let add_sos_to_bundle ~bundle_dir (binary : Installer_config.exec_file) =
   if binary.deps then
